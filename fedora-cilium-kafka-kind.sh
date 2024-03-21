@@ -112,6 +112,15 @@ nodes:
       kubeletExtraArgs:
         node-labels: "ingress-ready=true"
 EOF
-helm repo update
-#cilium install --version 1.15.1 --set kubeProxyReplacement=true --set bpf.lbMapMax=131072  --set socketLB.enabled=true --set nodePort.enabled=true --set externalIPs.enabled=true --set hostPort.enabled=true
+helm repo update >/dev/null 2>&1
 cilium install --version 1.16.0-pre.0 --set kubeProxyReplacement=true --set ingressController.enabled=true  --set ingressController.loadbalancerMode=dedicated --set ingressController.default=true
+echo "Sleeping for 30 seconds while the CNI intializes...."
+sleep 30
+kubectl create namespace kafka
+kubectl create -f 'https://strimzi.io/install/latest?namespace=kafka' -n kafka  >/dev/null 2>&1
+echo "Sleeping for 30 seconds while the we install the kafka operator...."
+sleep 30
+kubectl apply -f https://strimzi.io/examples/latest/kafka/kraft/kafka-ephemeral.yaml -n kafka  >/dev/null 2>&1
+echo "Lets wait for the kafka cluster to become ready......"
+kubectl wait kafka/my-cluster --for=condition=Ready --timeout=300s -n kafka
+kubectl apply -f https://strimzi.io/examples/latest/java/kafka/deployment-ssl-auth.yaml -n kafka  >/dev/null 2>&1
