@@ -1,0 +1,30 @@
+controlPlane:
+  backingStore:
+    etcd:
+      deploy:
+        enabled: true
+  distro:
+    k8s:
+      enabled: true
+  proxy:
+    extraSANs:
+    - strimzi-1.jsigroup.local
+  statefulSet:
+    scheduling:
+      podManagementPolicy: OrderedReady
+experimental:
+  deploy:
+    helm:
+    - chart:
+        name: strimzi
+        repo: https://github.com/strimzi/strimzi-kafka-operator
+      release:
+        name: strimzi-kafka
+        namespace: kafka
+sync:
+  fromHost:
+    ingressClasses:
+      enabled: true
+  toHost:
+    ingresses:
+      enabled: true
