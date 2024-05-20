@@ -8,11 +8,11 @@ Fedora with VCluster running Kafka
 jsoehner@Jeffs-MacBook cluster-2 % ./fedora-vcluster-kafka.sh        
 ERROR: flag needs an argument: --name
 Creating cluster "cluster2" ...
- ✓ Ensuring node image (kindest/node:v1.30.0) 🖼 
- ✓ Preparing nodes 📦  
- ✓ Writing configuration 📜 
- ✓ Starting control-plane 🕹️ 
- ✓ Installing StorageClass 💾 
+ ✓ Ensuring node image (kindest/node:v1.30.0) 🖼
+ ✓ Preparing nodes 📦
+ ✓ Writing configuration 📜
+ ✓ Starting control-plane 🕹️
+ ✓ Installing StorageClass 💾
 Set kubectl context to "kind-cluster2"
 You can now use your cluster with:
 
